@@ -8,6 +8,7 @@ const App = () => {
   const [products, setProducts] = useState(data.products);
   const [size, setSize] = useState("");
   const [sort, setSort] = useState("");
+  const [cartItems, setCartItems] = useState([]);
 
   const sortProducts = e => {
     const sortedProducts = products.slice();
@@ -28,6 +29,27 @@ const App = () => {
       setProducts(data.products.filter(product => (product.availableSizes.indexOf(e.target.value) >= 0)));
     }
   }
+  const addToCart = product => {
+    const _cartItems = cartItems.slice();
+    console.log(_cartItems);
+    let alreadyInCart = false;
+    _cartItems.forEach(item => {
+      if(item._id === product._id) {
+        item.count++;
+        alreadyInCart = true;
+      }
+    });
+    if(!alreadyInCart) {
+      _cartItems.push({ ...product, count: 1 })
+      alreadyInCart = true;
+    }
+    setCartItems(_cartItems);
+    console.log(_cartItems);
+  }
+  const removeFromCart = product => {
+    const _cartItems = cartItems.slice();
+    setCartItems(_cartItems.filter(_cartItem => _cartItem._id !== product._id))
+  }
 
   return (
     <div className="grid-container">
@@ -43,10 +65,10 @@ const App = () => {
             sortProducts={sortProducts}
             filterProducts={filterProducts}
              />
-          <Products products={products} />
+          <Products products={products} addToCart={addToCart} />
         </main>
         <aside className="aside-cart-items">
-          <Cart />
+          <Cart cartItems={cartItems} removeFromCart={removeFromCart} />
         </aside>      
       </main>
       <footer className="grid-container__footer">
