@@ -1,4 +1,10 @@
-@import "./helpers/_variables.scss";
+// helpers
+@import "./helpers/variables";
 
-@import "./basics/_base";
-@import "./basics/_reset";
+// base
+@import "./basics/base";
+
+// components
+@import "../App";
+@import "../components/Products/Products";
+@import "../components/Cart/Cart";
